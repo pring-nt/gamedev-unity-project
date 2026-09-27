@@ -22,8 +22,7 @@ public class PlayerMovement : MonoBehaviour
     bool grounded;
 
     [Header("Gravity")]
-    public float fallMultiplier = 2.5f;
-    public float lowJumpMultiplier = 2f;
+    public float gravityMultiplier = 2.5f;
 
 
     public Transform orientation;
@@ -47,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
         MyInput();
-        SpeedControl(); 
+        SpeedControl();
 
         if (grounded)
             rb.linearDamping = groundDrag;
@@ -86,9 +85,9 @@ public class PlayerMovement : MonoBehaviour
         //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if(grounded)
+        if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-        else if(!grounded)
+        else if (!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
     }
 
@@ -117,9 +116,6 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyGravityModifiers()
     {
-        if (rb.linearVelocity.y < 0)
-        {
-            rb.AddForce(Physics.gravity * (fallMultiplier - 1f), ForceMode.Acceleration);
-        }
+        rb.AddForce(Physics.gravity * (gravityMultiplier - 1f), ForceMode.Acceleration);
     }
 }
