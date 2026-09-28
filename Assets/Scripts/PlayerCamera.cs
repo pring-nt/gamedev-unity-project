@@ -7,16 +7,16 @@ public class PlayerCamera : MonoBehaviour
     public float sensY;
 
     public Transform orientation;
-    float xRotation;
-    float yRotation;
+    private float xRotation;
+    private float yRotation;
 
-    void Start()
+    private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-    void Update()
+    private void Update()
     {
         Vector2 mouseDelta = Mouse.current.delta.ReadValue();
 
