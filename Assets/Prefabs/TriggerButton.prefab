@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5135278839402007748}
   - component: {fileID: 4238734745810221746}
   - component: {fileID: 4889389603112544355}
-  - component: {fileID: 8999735987327701814}
   m_Layer: 0
   m_Name: TriggerButton
   m_TagString: Untagged
@@ -356,18 +355,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.4, z: 2.6000001}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8999735987327701814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7852351842545801681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7132cc32d431d749a5ff6b44d345900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RotatePlatform
-  platform: {fileID: 0}
-  rotateSpeed: 60
-  maxAngle: 360

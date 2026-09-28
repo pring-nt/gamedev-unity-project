@@ -7,7 +7,6 @@ public class LevelCompleteTrigger : MonoBehaviour
 
     void Start()
     {
-        // Automatically fetch the AudioSource component
         audioSource = GetComponent<AudioSource>();
     }
 
