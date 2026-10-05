@@ -11,14 +11,21 @@ public class PlayerMovement : MonoBehaviour
 
     public float groundDrag;
 
+    [Header("Jumping")]
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    private bool readyToJump = true;
+    private bool readyToJump;
+
+    [Header("Crouching")]
+    public float crouchSpeed;
+    public float crouchYScale;
+    private float startYScale;
 
     [Header("Keybinds")]
     public Key jumpKey = Key.Space;
     public Key sprintKey = Key.LeftShift;
+    public Key crouchKey = Key.LeftCtrl;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -48,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     {
         walking,  
         sprinting, 
+        crouching,
         air,
     }
 
@@ -55,7 +63,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
+        readyToJump = true;
+        startYScale = transform.localScale.y;
     }
 
     private void Update()
@@ -95,11 +104,29 @@ public class PlayerMovement : MonoBehaviour
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
+        if (Keyboard.current[crouchKey].wasPressedThisFrame)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+        }
+
+        if (Keyboard.current[crouchKey].wasReleasedThisFrame)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+        }
     }
+    
 
     private void StateHandler()
     {
-        if(grounded && Keyboard.current.leftShiftKey.isPressed)
+        if (Keyboard.current[crouchKey].isPressed)
+        {
+            state = MovementState.crouching;
+            moveSpeed = crouchSpeed;
+        }
+
+        else if(grounded && Keyboard.current[sprintKey].isPressed)
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
