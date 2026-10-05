@@ -156,6 +156,8 @@ GameObject:
   - component: {fileID: 1790748671990052959}
   - component: {fileID: 4706440052393501281}
   - component: {fileID: 9161554825248539881}
+  - component: {fileID: 1294313963515214955}
+  - component: {fileID: 534864834012008664}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -220,22 +222,86 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e788d88826cf354f9014f7f3865d7e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  walkSpeed: 6
-  sprintSpeed: 9
-  groundDrag: 5
+  playerObj: {fileID: 6185861268264082834}
+  orientation: {fileID: 6619883439649865968}
+  moveSpeed: 0
+  walkSpeed: 7
+  sprintSpeed: 10
+  slideSpeed: 30
+  wallrunSpeed: 8.5
+  groundDrag: 4
+  speedIncreaseMultiplier: 1.5
+  slopeIncreaseMultiplier: 2.5
+  toggleSprint: 0
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
+  crouchSpeed: 3.5
+  crouchYScale: 0.5
   jumpKey: 1
   sprintKey: 51
+  crouchKey: 55
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  gravityMultiplier: 2.5
+  gravityMultiplier: 1
   maxSlopeAngle: 45
-  orientation: {fileID: 6619883439649865968}
   state: 0
+  sliding: 0
+  crouching: 0
+  wallrunning: 0
+--- !u!114 &1294313963515214955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5038962764046445434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2c59a433d60caa49b8fdc4a715e328f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sliding
+  orientation: {fileID: 6619883439649865968}
+  playerObj: {fileID: 6185861268264082834}
+  maxSlideTime: 0.75
+  slideForce: 200
+  slideYScale: 0.5
+  slideKey: 55
+--- !u!114 &534864834012008664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5038962764046445434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42076267989959c408091eb11ec27f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallRunning
+  whatIsWall:
+    serializedVersion: 2
+    m_Bits: 8
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
+  wallRunForce: 200
+  wallJumpUpForce: 7
+  wallJumpSideForce: 12
+  wallClimbSpeed: 3.5
+  maxWallRunTime: 0.7
+  jumpKey: 1
+  upwardsRunKey: 51
+  downwardsRunKey: 55
+  wallCheckDistance: 0.7
+  minJumpHeight: 2
+  exitWallTime: 0.2
+  useGravity: 1
+  gravityCounterForce: 25
+  orientation: {fileID: 6619883439649865968}
+  cam: {fileID: 0}
 --- !u!1 &5121776084807091943
 GameObject:
   m_ObjectHideFlags: 0
