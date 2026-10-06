@@ -171,7 +171,9 @@ public class PlayerMovement : MonoBehaviour
 
         crouching = true;
         playerObj.localScale = new Vector3(playerObj.localScale.x, crouchYScale, playerObj.localScale.z);
-        rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+
+        if (grounded)
+            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
     }
 
     public void StopCrouch()
@@ -380,5 +382,15 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 GetSlopeMoveDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+    }
+
+    public void Launch(float force)
+    {
+        exitingSlope = true;
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+
+        CancelInvoke(nameof(ResetJump));
+        Invoke(nameof(ResetJump), jumpCooldown);
     }
 }

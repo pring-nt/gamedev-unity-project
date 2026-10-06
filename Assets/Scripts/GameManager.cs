@@ -7,12 +7,19 @@ public class GameManager : MonoBehaviour
 
     public enum GameState { Waiting, Playing, Won }
 
+    [Header("Death Sound")]
+    [SerializeField] private AudioClip soundEffect;
+    private AudioSource audioSource;
+
     [Header("Player")]
     public PlayerStats player;
     public Transform playerSpawn;
 
     [Header("Timer")]
     public float roundTime = 120f;
+
+    [Header("Restart")]
+    public float restartDelay = 3f;
 
     [Header("Events")]
     public UnityEvent onGameStarted;
@@ -25,10 +32,12 @@ public class GameManager : MonoBehaviour
     private Rigidbody playerRb;
     private int lastPrintedSecond = -1;
 
+
     private void Awake()
     {
         Instance = this;
         playerRb = player.GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         TimeLeft = roundTime;
         State = GameState.Waiting;
     }
@@ -53,6 +62,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void OnPlayerDamage()
+    {
+        Debug.Log($"Player HP: {player.CurrentHealth}");
+    }
+
     public void StartGame()
     {
         if (State != GameState.Waiting) return;
@@ -73,16 +87,24 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"You win! Time left: {TimeLeft:F1}s");
         onGameStopped?.Invoke();
+
+        Invoke(nameof(ResetGame), restartDelay);
     }
 
     public void PlayerDied()
     {
         Debug.Log("Player died!");
+
+        if (soundEffect != null)
+            audioSource.PlayOneShot(soundEffect);
+
         ResetGame();
     }
 
     public void ResetGame()
     {
+        CancelInvoke(nameof(ResetGame));
+
         State = GameState.Waiting;
         TimeLeft = roundTime;
 

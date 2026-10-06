@@ -22,6 +22,12 @@ public class LaserSpawner : MonoBehaviour
     public float xRange = 5f;
     public float yRange = 3f;
 
+    [Header("Diagonal")]
+    public float diagonalYOffset = -0.5f;
+    public float diagonalXJitter = 0.5f;
+    public float minDiagonalAngle = 30f;
+    public float maxDiagonalAngle = 60f;
+
     private readonly List<Laser> activeLasers = new List<Laser>();
     private readonly List<LaserOrientation> enabledOrientations = new List<LaserOrientation>();
     private Coroutine spawnRoutine;
@@ -87,9 +93,12 @@ public class LaserSpawner : MonoBehaviour
                 break;
 
             default:
-                offset.x = Random.Range(-xRange, xRange);
-                offset.y = Random.Range(-yRange, yRange);
-                rotation = Quaternion.Euler(0f, 0f, Random.value < 0.5f ? 45f : -45f);
+                offset.x = Random.Range(-diagonalXJitter, diagonalXJitter);
+                offset.y = diagonalYOffset;
+
+                float angle = Random.Range(minDiagonalAngle, maxDiagonalAngle);
+                float side = Random.value < 0.5f ? -1f : 1f;
+                rotation = Quaternion.Euler(0f, 0f, angle * side);
                 break;
         }
 

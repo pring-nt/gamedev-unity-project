@@ -4,6 +4,7 @@ public class GameTrigger : MonoBehaviour
 {
     public enum TriggerType { Start, Win }
 
+    [Header("Type")]
     public TriggerType type;
 
     private void OnTriggerEnter(Collider other)
