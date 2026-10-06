@@ -8,8 +8,11 @@ public class GameManager : MonoBehaviour
     public enum GameState { Waiting, Playing, Won }
 
     [Header("Death Sound")]
-    [SerializeField] private AudioClip soundEffect;
+    [SerializeField] private AudioClip deathSound;
     private AudioSource audioSource;
+
+    [Header("Win Sound")]
+    [SerializeField] private AudioClip winSound;
 
     [Header("Player")]
     public PlayerStats player;
@@ -85,6 +88,8 @@ public class GameManager : MonoBehaviour
 
         State = GameState.Won;
 
+        if (winSound != null)
+            audioSource.PlayOneShot(winSound);
         Debug.Log($"You win! Time left: {TimeLeft:F1}s");
         onGameStopped?.Invoke();
 
@@ -95,8 +100,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Player died!");
 
-        if (soundEffect != null)
-            audioSource.PlayOneShot(soundEffect);
+        if (deathSound != null)
+            audioSource.PlayOneShot(deathSound);
 
         ResetGame();
     }
