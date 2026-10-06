@@ -13,6 +13,18 @@ public class PlayerCamera : MonoBehaviour
     private float xRotation;
     private float yRotation;
 
+    private Camera cam;
+
+    private float tilt;
+    private float damageRoll;
+    private Tween tiltTween;
+    private Tween damageTween;
+
+    private void Awake()
+    {
+        cam = GetComponent<Camera>();
+    }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -35,13 +47,31 @@ public class PlayerCamera : MonoBehaviour
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
     }
 
+    private void LateUpdate()
+    {
+        transform.localRotation = Quaternion.Euler(0f, 0f, tilt + damageRoll);
+    }
+
     public void DoFov(float endValue)
     {
-        GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
+        cam.DOFieldOfView(endValue, 0.25f);
     }
 
     public void DoTilt(float zTilt)
     {
-        transform.DOLocalRotate(new Vector3(0f, 0f, zTilt), 0.25f);
+        tiltTween?.Kill();
+        tiltTween = DOTween.To(() => tilt, x => tilt = x, zTilt, 0.25f);
+    }
+
+    public void DoDamageKick(float strength, float duration)
+    {
+        damageTween?.Kill();
+        damageRoll = 0f;
+
+        damageTween = DOTween.Punch(
+            () => new Vector3(0f, 0f, damageRoll),
+            v => damageRoll = v.z,
+            new Vector3(0f, 0f, strength),
+            duration, 8, 0.5f);
     }
 }

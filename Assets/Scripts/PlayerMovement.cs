@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Camera FOV")]
     public float normalFov = 80f;
     public float sprintFov = 90f;
+    public float speedBuffFovBonus = 10f;
     private float targetFov;
 
     [Header("Jumping")]
@@ -68,6 +69,10 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    private PlayerStats stats;
+    private float SpeedMultiplier => stats != null ? stats.SpeedMultiplier : 1f;
+    private float EffectiveSpeed => moveSpeed * SpeedMultiplier;
+
     Vector3 moveDirection;
 
     Rigidbody rb;
@@ -91,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        stats = GetComponent<PlayerStats>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         readyToJump = true;
@@ -145,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (toggleSprint)
         {
-            if (Keyboard.current[sprintKey].wasPressedThisFrame)
+            if (Keyboard.current[sprintKey].wasPressedThisFrame && !wallrunning)
                 sprintToggled = !sprintToggled;
 
             if (!moving)
@@ -193,8 +199,9 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                float currentSpeed = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z).magnitude;
-                desiredMoveSpeed = Mathf.Max(currentSpeed, walkSpeed);
+                // real velocity already includes the speed multiplier, so convert it back to base speed
+                float currentSpeed = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z).magnitude / SpeedMultiplier;
+                desiredMoveSpeed = Mathf.Clamp(currentSpeed, walkSpeed, slideSpeed);
             }
         }
         else if (crouching)
@@ -255,6 +262,9 @@ public class PlayerMovement : MonoBehaviour
 
         float fov = state == MovementState.sprinting ? sprintFov : normalFov;
 
+        if (SpeedMultiplier > 1f)
+            fov += speedBuffFovBonus;
+
         if (!Mathf.Approximately(fov, targetFov))
         {
             targetFov = fov;
@@ -298,18 +308,18 @@ public class PlayerMovement : MonoBehaviour
 
         if (onSlope)
         {
-            rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
+            rb.AddForce(GetSlopeMoveDirection(moveDirection) * EffectiveSpeed * 20f, ForceMode.Force);
 
             if (rb.linearVelocity.y > 0f)
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
         else if (grounded)
         {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * EffectiveSpeed * 10f, ForceMode.Force);
         }
         else
         {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * EffectiveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
 
         if (!wallrunning) rb.useGravity = !onSlope;
@@ -317,20 +327,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
+        float maxSpeed = EffectiveSpeed;
+
         if (OnSlope() && !exitingSlope)
         {
-            if (rb.linearVelocity.magnitude > moveSpeed)
-            {
-                rb.linearVelocity = rb.linearVelocity.normalized * moveSpeed;
-            }
+            if (rb.linearVelocity.magnitude > maxSpeed)
+                rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
         else
         {
             Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
-            if (flatVel.magnitude > moveSpeed)
+            if (flatVel.magnitude > maxSpeed)
             {
-                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                Vector3 limitedVel = flatVel.normalized * maxSpeed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
         }

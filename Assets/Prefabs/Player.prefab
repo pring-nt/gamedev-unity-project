@@ -158,6 +158,8 @@ GameObject:
   - component: {fileID: 9161554825248539881}
   - component: {fileID: 1294313963515214955}
   - component: {fileID: 534864834012008664}
+  - component: {fileID: 7571039721649442150}
+  - component: {fileID: 5494719840849727715}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -224,6 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   playerObj: {fileID: 6185861268264082834}
   orientation: {fileID: 6619883439649865968}
+  cam: {fileID: 0}
   moveSpeed: 0
   walkSpeed: 7
   sprintSpeed: 10
@@ -232,7 +235,9 @@ MonoBehaviour:
   groundDrag: 4
   speedIncreaseMultiplier: 1.5
   slopeIncreaseMultiplier: 2.5
-  toggleSprint: 0
+  toggleSprint: 1
+  normalFov: 80
+  sprintFov: 90
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
@@ -283,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WallRunning
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 64
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -298,10 +303,63 @@ MonoBehaviour:
   wallCheckDistance: 0.7
   minJumpHeight: 2
   exitWallTime: 0.2
+  resetWallTime: 2
   useGravity: 1
-  gravityCounterForce: 25
+  gravityCounterForce: 30
   orientation: {fileID: 6619883439649865968}
   cam: {fileID: 0}
+--- !u!114 &7571039721649442150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5038962764046445434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f99690bf9d2fe4083bab03803b07e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  data: {fileID: 11400000, guid: 41f51c2d85894454081c94cc9845f0c7, type: 2}
+  onDamaged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5494719840849727715}
+        m_TargetAssemblyTypeName: DamageFeedback, Assembly-CSharp
+        m_MethodName: OnDamaged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5494719840849727715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5038962764046445434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9e23546661dd7428265c5c845e53d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFeedback
+  playerCamera: {fileID: 0}
+  tiltStrength: 6
+  tiltDuration: 0.25
+  damageOverlay: {fileID: 0}
+  overlayMaxAlpha: 0.35
+  overlayFadeTime: 0.4
 --- !u!1 &5121776084807091943
 GameObject:
   m_ObjectHideFlags: 0
