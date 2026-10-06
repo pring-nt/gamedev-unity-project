@@ -6,7 +6,7 @@ public class LaserKillZone : MonoBehaviour
     {
         Laser laser = other.GetComponentInParent<Laser>();
 
-        // only moving lasers, so hand-placed static ones overlapping the zone survive
+        // only kill moving lasers
         if (laser != null && laser.isMoving)
             Destroy(laser.gameObject);
     }
