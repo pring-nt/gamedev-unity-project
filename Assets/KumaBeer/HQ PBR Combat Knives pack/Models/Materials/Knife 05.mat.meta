@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 1f492b778a346034c839cc5b3f8d88cc
+timeCreated: 1533066515
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 123791
+  packageName: HQ PBR Combat Knives pack
+  packageVersion: 1.1
+  assetPath: Assets/KumaBeer/HQ PBR Combat Knives pack/Models/Materials/Knife 05.mat
+  uploadId: 454974

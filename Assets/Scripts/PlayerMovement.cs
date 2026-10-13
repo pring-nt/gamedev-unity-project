@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isSprinting;
 
     [Header("Camera FOV")]
-    public float normalFov = 80f;
+    public float normalFov = 60f;
     public float sprintFov = 90f;
     public float speedBuffFovBonus = 10f;
     private float targetFov;
@@ -101,7 +101,9 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         readyToJump = true;
         startYScale = playerObj.localScale.y;
+
         targetFov = normalFov;
+        cam.DoFov(normalFov);
     }
 
     private void Update()
@@ -262,7 +264,7 @@ public class PlayerMovement : MonoBehaviour
         if (state == MovementState.air)
             return;
 
-        float fov = state == MovementState.sprinting ? sprintFov : normalFov;
+        float fov = state == MovementState.sprinting || state == MovementState.sliding ? sprintFov : normalFov;
 
         if (SpeedMultiplier > 1f)
             fov += speedBuffFovBonus;

@@ -10,10 +10,18 @@ public class PlayerCamera : MonoBehaviour
     public Transform orientation;
     public Transform camHolder;
 
+    [Header("Zoom")]
+    public float zoomSmoothing = 10f;
+
     private float xRotation;
     private float yRotation;
 
     private Camera cam;
+
+    private float baseFov;
+    private float zoom;
+    private float targetZoom;
+    private Tween fovTween;
 
     private float tilt;
     private float damageRoll;
@@ -23,6 +31,7 @@ public class PlayerCamera : MonoBehaviour
     private void Awake()
     {
         cam = GetComponent<Camera>();
+        baseFov = cam.fieldOfView;
     }
 
     private void Start()
@@ -49,12 +58,21 @@ public class PlayerCamera : MonoBehaviour
 
     private void LateUpdate()
     {
+        zoom = Mathf.Lerp(zoom, targetZoom, zoomSmoothing * Time.deltaTime);
+        cam.fieldOfView = baseFov - zoom;
+
         transform.localRotation = Quaternion.Euler(0f, 0f, tilt + damageRoll);
     }
 
     public void DoFov(float endValue)
     {
-        cam.DOFieldOfView(endValue, 0.25f);
+        fovTween?.Kill();
+        fovTween = DOTween.To(() => baseFov, x => baseFov = x, endValue, 0.25f);
+    }
+
+    public void SetZoom(float amount)
+    {
+        targetZoom = amount;
     }
 
     public void DoTilt(float zTilt)
