@@ -26,7 +26,8 @@ public class ProjectileStick : MonoBehaviour
         else
             StickToStatic(collision.transform);
 
-        AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        if (hitSound != null)
+            AudioSource.PlayClipAtPoint(hitSound, transform.position);
     }
 
     private void StickToRigidbody(Rigidbody target)
