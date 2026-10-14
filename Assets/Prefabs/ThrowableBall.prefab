@@ -14,8 +14,10 @@ GameObject:
   - component: {fileID: 4701862149968911124}
   - component: {fileID: 4432683406843656846}
   - component: {fileID: 6455321088819577506}
-  - component: {fileID: 2749662614604305393}
   - component: {fileID: 8538850898885034422}
+  - component: {fileID: 6176065507565326296}
+  - component: {fileID: 6171294069149343790}
+  - component: {fileID: 1128919097808658209}
   m_Layer: 0
   m_Name: ThrowableBall
   m_TagString: Untagged
@@ -35,7 +37,8 @@ Transform:
   m_LocalPosition: {x: -3.5541644, y: 0.25000048, z: -2.501296}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1832072387867009637}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8431696181152824313
@@ -8550,7 +8553,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 697
+  m_VersionIndex: 721
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8660,13 +8663,69 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!135 &2749662614604305393
-SphereCollider:
+  m_CollisionDetection: 2
+--- !u!114 &8538850898885034422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8878916487207034431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa669dea76cc834186e7e7c6f6f1e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveProjectile
+  explodeOnImpact: 1
+  fuseTime: 3
+  armTime: 0.05
+  radius: 4
+  force: 30
+  upwardsModifier: 1
+  damage: 25
+  affectedLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  explosionEffect: {fileID: 4806843881307822078, guid: d3baa4b3f02cdbc4ea7f22a094b598f7, type: 3}
+  effectLifetime: 3
+  explosionSound: {fileID: 8300000, guid: e970fc6737b7bbe4ca39c4d3376a881c, type: 3}
+--- !u!114 &6176065507565326296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8878916487207034431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6718e7d821d604091aef225c7c43f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileLifetime
+  lifetime: 10
+  shrinkTime: 0.3
+  explodeOnExpire: 1
+--- !u!114 &6171294069149343790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8878916487207034431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ee4b3de7c11504bbf5a2bdb82c7990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThrowableAudio
+  chargeSound: {fileID: 8300000, guid: 6a1f1ffc6e5aed54d95071214fc5c8d0, type: 3}
+  throwSound: {fileID: 8300000, guid: 9739868f06c7f9440ae75bd5a6c60360, type: 3}
+  minPitch: 0.8
+  maxPitch: 1.4
+--- !u!65 &1128919097808658209
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8684,30 +8743,67 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.25
+  m_Size: {x: 0.4, y: 0.4, z: 0.4}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8538850898885034422
-MonoBehaviour:
+--- !u!1001 &2669845979702676435
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3425557859541030224}
+    m_Modifications:
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352715345865559587, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+      propertyPath: m_Name
+      value: Trail
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+--- !u!4 &1832072387867009637 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4351012584639670710, guid: 4d4e122361aea394891c0b63741ca571, type: 3}
+  m_PrefabInstance: {fileID: 2669845979702676435}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8878916487207034431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baa669dea76cc834186e7e7c6f6f1e08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveProjectile
-  explodeOnImpact: 1
-  fuseTime: 3
-  armTime: 0.15
-  radius: 5
-  force: 30
-  upwardsModifier: 1
-  damage: 25
-  affectedLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  explosionEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
-  effectLifetime: 3
-  explosionSound: {fileID: 8300000, guid: a3fafb751e1db584ebc15f16b7a19ec1, type: 3}

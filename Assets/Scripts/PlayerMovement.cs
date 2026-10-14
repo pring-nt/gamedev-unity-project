@@ -54,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ground Check")]
     public float playerHeight;
+    public float groundCheckRadius = 0.4f;
+    public float groundCheckDistance = 0.2f;
     public LayerMask whatIsGround;
     private bool grounded;
     public bool Grounded => grounded;
@@ -108,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+        CheckGround();
         MyInput();
         SpeedControl();
         StateHandler();
@@ -123,6 +125,18 @@ public class PlayerMovement : MonoBehaviour
     {
         MovePlayer();
         ApplyGravityModifiers();
+    }
+
+    private void CheckGround()
+    {
+        // cast from the center so the sphere's bottom ends just below the feet
+        float castDistance = playerHeight * 0.5f - groundCheckRadius + groundCheckDistance;
+
+        bool hit = Physics.SphereCast(transform.position, groundCheckRadius, Vector3.down, out slopeHit,
+            castDistance, whatIsGround, QueryTriggerInteraction.Ignore);
+
+        // walls and surfaces too steep to stand on don't count as ground
+        grounded = hit && Vector3.Angle(Vector3.up, slopeHit.normal) <= maxSlopeAngle;
     }
 
     private void MyInput()
@@ -373,12 +387,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool OnSlope()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
-        {
-            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-            return angle < maxSlopeAngle && angle != 0;
-        }
-        return false;
+        if (!grounded) return false;
+
+        float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+        return angle > 0.1f && angle <= maxSlopeAngle;
     }
 
     public Vector3 GetSlopeMoveDirection(Vector3 direction)
@@ -394,5 +406,12 @@ public class PlayerMovement : MonoBehaviour
 
         CancelInvoke(nameof(ResetJump));
         Invoke(nameof(ResetJump), jumpCooldown);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        float castDistance = playerHeight * 0.5f - groundCheckRadius + groundCheckDistance;
+        Gizmos.color = grounded ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(transform.position + Vector3.down * castDistance, groundCheckRadius);
     }
 }

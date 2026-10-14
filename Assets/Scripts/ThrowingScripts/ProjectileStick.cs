@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileStick : MonoBehaviour
@@ -5,6 +6,9 @@ public class ProjectileStick : MonoBehaviour
     private Rigidbody rb;
     private Collider col;
     private bool targetHit;
+
+    [Header("Effects")]
+    public AudioClip hitSound;
 
     private void Awake()
     {
@@ -21,6 +25,8 @@ public class ProjectileStick : MonoBehaviour
             StickToRigidbody(collision.rigidbody);
         else
             StickToStatic(collision.transform);
+
+        AudioSource.PlayClipAtPoint(hitSound, transform.position);
     }
 
     private void StickToRigidbody(Rigidbody target)

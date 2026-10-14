@@ -76,7 +76,13 @@ public class ExplosiveProjectile : MonoBehaviour
                 target.TakeDamage(damage * falloff);
             }
         }
-
+        TrailRenderer trail = GetComponentInChildren<TrailRenderer>();
+        if (trail != null)
+        {
+            trail.transform.SetParent(null);
+            trail.emitting = false;
+            Destroy(trail.gameObject, trail.time);
+        }
         Destroy(gameObject);
     }
 }

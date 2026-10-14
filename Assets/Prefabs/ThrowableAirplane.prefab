@@ -852,6 +852,7 @@ GameObject:
   - component: {fileID: 3479524407259477944}
   - component: {fileID: 5396029094677870898}
   - component: {fileID: 8274608061356933219}
+  - component: {fileID: -6636360634494730592}
   m_Layer: 0
   m_Name: ThrowableAirplane
   m_TagString: Untagged
@@ -887,7 +888,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9105669190568714329}
   serializedVersion: 5
-  m_Mass: 5
+  m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -903,9 +904,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &8274608061356933219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -920,6 +921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ExplosiveProjectile
   explodeOnImpact: 1
   fuseTime: 3
+  armTime: 0.15
   radius: 5
   force: 150
   upwardsModifier: 2
@@ -930,3 +932,18 @@ MonoBehaviour:
   explosionEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
   effectLifetime: 3
   explosionSound: {fileID: 8300000, guid: a3fafb751e1db584ebc15f16b7a19ec1, type: 3}
+--- !u!114 &-6636360634494730592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9105669190568714329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6718e7d821d604091aef225c7c43f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileLifetime
+  lifetime: 10
+  shrinkTime: 0.3
+  explodeOnExpire: 1
