@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6379837372593943803}
   - component: {fileID: 1460186191342917282}
   - component: {fileID: 6742539565037992359}
+  - component: {fileID: 2912356689489414103}
   m_Layer: 6
   m_Name: WallrunWall
   m_TagString: Untagged
@@ -597,3 +598,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &2912356689489414103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4079368239996976620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cdee71a9318234ea5a4d685f8f1813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HiddenObject
+  stayRevealed: 1
+  popTime: 0.3
+  revealSound: {fileID: 0}
+  onRevealed:
+    m_PersistentCalls:
+      m_Calls: []
