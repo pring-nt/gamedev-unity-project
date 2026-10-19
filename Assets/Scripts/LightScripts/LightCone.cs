@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class LightCone
 {
-    public static bool IsLit(Light light, Vector3 point, LayerMask obstacleMask)
+    public static bool IsLit(Light light, Vector3 point, LayerMask obstacleMask, Transform target = null)
     {
         if (light == null || !light.enabled || !light.gameObject.activeInHierarchy) return false;
 
@@ -13,8 +13,11 @@ public static class LightCone
         if (distance < 0.001f || distance > light.range) return false;
         if (Vector3.Angle(origin.forward, toPoint) > light.spotAngle * 0.5f) return false;
 
-        // stop just short of the point so the target's own collider doesn't count as blocking
-        return !Physics.Raycast(origin.position, toPoint / distance, distance - 0.05f,
-            obstacleMask, QueryTriggerInteraction.Ignore);
+        if (!Physics.Raycast(origin.position, toPoint / distance, out RaycastHit hit, distance,
+                obstacleMask, QueryTriggerInteraction.Ignore))
+            return true;
+
+        // the first thing in the way is the target itself, so nothing blocks it
+        return target != null && hit.transform.IsChildOf(target);
     }
 }

@@ -53,7 +53,7 @@ public class Flashlight : MonoBehaviour
         for (int i = HiddenObject.All.Count - 1; i >= 0; i--)
         {
             HiddenObject hidden = HiddenObject.All[i];
-            hidden.SetLit(IsOn && LightCone.IsLit(spotLight, hidden.CheckPoint, obstacleMask));
+            hidden.SetLit(IsOn && hidden.IsLitBy(spotLight, obstacleMask));
         }
     }
 

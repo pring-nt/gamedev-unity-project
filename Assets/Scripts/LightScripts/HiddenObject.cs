@@ -14,13 +14,17 @@ public class HiddenObject : MonoBehaviour
     public AudioClip revealSound;
     public UnityEvent onRevealed;
 
+    [Header("Detection")]
+    // pulls the corner points slightly inward so they don't sit exactly on the edge
+    [Range(0f, 0.5f)] public float cornerInset = 0.1f;
+    // extra points to test, e.g. for odd shapes
+    public Transform[] extraCheckPoints;
+
     private Renderer[] renderers;
     private Collider[] colliders;
-    private Vector3 localCheckPoint;
+    private Vector3[] localCheckPoints;
     private Vector3 originalScale;
     private bool revealed;
-
-    public Vector3 CheckPoint => transform.TransformPoint(localCheckPoint);
 
     private void Awake()
     {
@@ -32,9 +36,31 @@ public class HiddenObject : MonoBehaviour
         foreach (Renderer r in renderers)
             bounds.Encapsulate(r.bounds);
 
-        localCheckPoint = transform.InverseTransformPoint(bounds.center);
-
+        BuildCheckPoints(bounds);
         SetVisible(false);
+    }
+
+    private void BuildCheckPoints(Bounds bounds)
+    {
+        Vector3 c = bounds.center;
+        Vector3 e = bounds.extents;
+        float x = e.x * (1f - cornerInset * 2f);
+        float z = e.z * (1f - cornerInset * 2f);
+        float top = e.y;
+
+        Vector3[] worldPoints =
+        {
+            c,
+            c + new Vector3(0f, top, 0f),
+            c + new Vector3( x, top,  z),
+            c + new Vector3(-x, top,  z),
+            c + new Vector3( x, top, -z),
+            c + new Vector3(-x, top, -z),
+        };
+
+        localCheckPoints = new Vector3[worldPoints.Length];
+        for (int i = 0; i < worldPoints.Length; i++)
+            localCheckPoints[i] = transform.InverseTransformPoint(worldPoints[i]);
     }
 
     private void OnEnable()
@@ -45,6 +71,20 @@ public class HiddenObject : MonoBehaviour
     private void OnDisable()
     {
         All.Remove(this);
+    }
+
+    public bool IsLitBy(Light light, LayerMask obstacleMask)
+    {
+        foreach (Vector3 local in localCheckPoints)
+            if (LightCone.IsLit(light, transform.TransformPoint(local), obstacleMask, transform))
+                return true;
+
+        if (extraCheckPoints != null)
+            foreach (Transform point in extraCheckPoints)
+                if (point != null && LightCone.IsLit(light, point.position, obstacleMask, transform))
+                    return true;
+
+        return false;
     }
 
     public void SetLit(bool lit)
@@ -65,7 +105,7 @@ public class HiddenObject : MonoBehaviour
         transform.DOScale(originalScale, popTime).SetEase(Ease.OutBack);
 
         if (revealSound != null)
-            AudioSource.PlayClipAtPoint(revealSound, CheckPoint);
+            AudioSource.PlayClipAtPoint(revealSound, transform.position);
 
         onRevealed?.Invoke();
     }

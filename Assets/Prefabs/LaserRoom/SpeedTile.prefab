@@ -82,7 +82,8 @@ GameObject:
   - component: {fileID: 814325379335470572}
   - component: {fileID: 7110451409962297679}
   - component: {fileID: 1211554466066079477}
-  m_Layer: 0
+  - component: {fileID: 4271337812959921119}
+  m_Layer: 3
   m_Name: SpeedTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +318,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1073
+  m_VersionIndex: 1079
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -425,3 +426,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &4271337812959921119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7369232959670864203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cdee71a9318234ea5a4d685f8f1813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HiddenObject
+  stayRevealed: 1
+  popTime: 0.3
+  revealSound: {fileID: 0}
+  onRevealed:
+    m_PersistentCalls:
+      m_Calls: []
