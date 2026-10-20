@@ -16394,7 +16394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThrowingItem
   cam: {fileID: 2129139186}
   attackPoint: {fileID: 625427039}
-  objectToThrow: {fileID: 8878916487207034431, guid: 4261c8d5f56012d4a88071b19c642ae3, type: 3}
+  objectToThrow: {fileID: 9105669190568714329, guid: 3e24f9952da539243a1f031389a305e9, type: 3}
   playerCamera: {fileID: 2129139185}
   maxChargeZoom: 10
   totalThrows: 500

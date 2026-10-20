@@ -32,6 +32,27 @@ public class LaserSpawner : MonoBehaviour
     private readonly List<LaserOrientation> enabledOrientations = new List<LaserOrientation>();
     private Coroutine spawnRoutine;
 
+    private float alarmEndTime;
+    private Coroutine alarmRoutine;
+
+    public void ActivateFor(float duration)
+    {
+        alarmEndTime = Mathf.Max(alarmEndTime, Time.time + duration);
+        StartSpawning();
+
+        if (alarmRoutine == null)
+            alarmRoutine = StartCoroutine(AlarmTimer());
+    }
+
+    private IEnumerator AlarmTimer()
+    {
+        while (Time.time < alarmEndTime)
+            yield return null;
+
+        alarmRoutine = null;
+        StopSpawning();
+    }
+
     public void StartSpawning()
     {
         if (spawnRoutine != null) return;
@@ -48,6 +69,13 @@ public class LaserSpawner : MonoBehaviour
 
     public void ClearLasers()
     {
+        if (alarmRoutine != null)
+        {
+            StopCoroutine(alarmRoutine);
+            alarmRoutine = null;
+        }
+        alarmEndTime = 0f;
+
         foreach (Laser laser in activeLasers)
         {
             if (laser != null)

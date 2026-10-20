@@ -318,7 +318,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1079
+  m_VersionIndex: 1088
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -440,7 +440,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HiddenObject
   stayRevealed: 1
   popTime: 0.3
-  revealSound: {fileID: 0}
+  revealSound: {fileID: 8300000, guid: c1612620961076a439e2ea8eb2df4df9, type: 3}
   onRevealed:
     m_PersistentCalls:
       m_Calls: []
+  cornerInset: 0.1
+  extraCheckPoints: []

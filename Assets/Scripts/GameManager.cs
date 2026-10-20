@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 
     public enum GameState { Waiting, Playing, Won }
 
+    [Header("Stealth")]
+    public Flashlight flashlight;
+
     [Header("Death Sound")]
     [SerializeField] private AudioClip deathSound;
     private AudioSource audioSource;
@@ -118,6 +121,10 @@ public class GameManager : MonoBehaviour
 
         RespawnPlayer();
         player.ResetStats();
+        HiddenObject.HideAll();
+
+        if (flashlight != null && flashlight.IsOn)
+            flashlight.Toggle();
 
         Debug.Log("Game reset.");
     }
