@@ -8,11 +8,15 @@ public class HiddenObject : MonoBehaviour
     public static readonly List<HiddenObject> All = new List<HiddenObject>();
 
     [Header("Reveal")]
-    // stays visible once found, otherwise it disappears again when the light moves off it
+    // stays visible forever once found; when off, Reveal Duration decides how long it lingers
     public bool stayRevealed = true;
+    // seconds it stays visible after the light last touched it; 0 = hides as soon as the light leaves
+    public float revealDuration = 3f;
     public float popTime = 0.3f;
     public AudioClip revealSound;
+    public AudioClip hideSound;
     public UnityEvent onRevealed;
+    public UnityEvent onHidden;
 
     [Header("Detection")]
     // pulls the corner points slightly inward so they don't sit exactly on the edge
@@ -25,6 +29,11 @@ public class HiddenObject : MonoBehaviour
     private Vector3[] localCheckPoints;
     private Vector3 originalScale;
     private bool revealed;
+    private float lastLitTime;
+
+    public float TimeUntilHidden => revealed && !stayRevealed
+        ? Mathf.Max(0f, revealDuration - (Time.time - lastLitTime))
+        : 0f;
 
     private void Awake()
     {
@@ -89,10 +98,18 @@ public class HiddenObject : MonoBehaviour
 
     public void SetLit(bool lit)
     {
-        if (lit && !revealed)
-            Reveal();
-        else if (!lit && revealed && !stayRevealed)
-            Hide();
+        if (lit)
+        {
+            lastLitTime = Time.time;
+
+            if (!revealed)
+                Reveal();
+
+            return;
+        }
+
+        if (revealed && !stayRevealed && Time.time - lastLitTime >= revealDuration)
+            HideAnimated();
     }
 
     private void Reveal()
@@ -108,6 +125,25 @@ public class HiddenObject : MonoBehaviour
             AudioSource.PlayClipAtPoint(revealSound, transform.position);
 
         onRevealed?.Invoke();
+    }
+
+    private void HideAnimated()
+    {
+        // marked hidden right away so lighting it during the shrink pops it straight back
+        revealed = false;
+
+        if (hideSound != null)
+            AudioSource.PlayClipAtPoint(hideSound, transform.position);
+
+        transform.DOKill();
+        transform.DOScale(Vector3.zero, popTime)
+            .SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                transform.localScale = originalScale;
+                SetVisible(false);
+                onHidden?.Invoke();
+            });
     }
 
     public void Hide()
