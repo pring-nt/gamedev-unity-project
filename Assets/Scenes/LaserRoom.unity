@@ -6769,6 +6769,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 129371885}
+    - target: {fileID: 4271337812959921119, guid: 0f54fad65622ac447883cf6ad46140da, type: 3}
+      propertyPath: stayRevealed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6399295954299794460, guid: 0f54fad65622ac447883cf6ad46140da, type: 3}
       propertyPath: duration
       value: 6
@@ -11791,7 +11795,7 @@ PrefabInstance:
       objectReference: {fileID: 1526684237}
     - target: {fileID: 2912356689489414103, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: stayRevealed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4077364558481756810, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12287,7 +12291,7 @@ PrefabInstance:
       objectReference: {fileID: 1921193406}
     - target: {fileID: 2912356689489414103, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: stayRevealed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4077364558481756810, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12629,7 +12633,7 @@ PrefabInstance:
       objectReference: {fileID: 263208650}
     - target: {fileID: 2912356689489414103, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: stayRevealed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4077364558481756810, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13876,6 +13880,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 676099079}
+    - target: {fileID: 4271337812959921119, guid: 0f54fad65622ac447883cf6ad46140da, type: 3}
+      propertyPath: stayRevealed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7110451409962297679, guid: 0f54fad65622ac447883cf6ad46140da, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -25846,7 +25854,7 @@ PrefabInstance:
       objectReference: {fileID: 2072979660}
     - target: {fileID: 2912356689489414103, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: stayRevealed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4077364558481756810, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: m_LocalPosition.x
@@ -27614,7 +27622,7 @@ PrefabInstance:
       objectReference: {fileID: 220812780}
     - target: {fileID: 2912356689489414103, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: stayRevealed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4077364558481756810, guid: f2b06697edced004ba20500ba0740566, type: 3}
       propertyPath: m_LocalPosition.x
@@ -27874,6 +27882,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6914382290035661057, guid: aa639ceec7d3e7a47a1d2510648a5eb3, type: 3}
+      propertyPath: stayRevealed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1444378335729941383, guid: aa639ceec7d3e7a47a1d2510648a5eb3, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -28135,9 +28147,17 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2945394211415191459, guid: 3c680c16fedf9d046a5fb8439d5c12e8, type: 3}
+      propertyPath: spawners.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945394211415191459, guid: 3c680c16fedf9d046a5fb8439d5c12e8, type: 3}
       propertyPath: 'spawners.Array.data[0]'
       value: 
       objectReference: {fileID: 1543284165}
+    - target: {fileID: 2945394211415191459, guid: 3c680c16fedf9d046a5fb8439d5c12e8, type: 3}
+      propertyPath: 'spawners.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1218239789}
     - target: {fileID: 3902416614854951997, guid: 3c680c16fedf9d046a5fb8439d5c12e8, type: 3}
       propertyPath: m_Name
       value: SecurityLight
